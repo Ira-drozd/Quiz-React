@@ -1,25 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Layout from "./hoc/Layout/Layout";
+import Quiz from "./containers/Quiz/Quiz";
+import Auth from "./containers/Auth/Auth";
+import QuizCreator from "./containers/QuizCreator/QuizCreator";
+import {BrowserRouter, Switch, Route} from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+<BrowserRouter>
+    <Layout>
+        <Switch>
+            <Route component={Auth} patch='/auth' />
+            <Route component={QuizCreator} patch='/quiz-creator' />
+            <Route component={Quiz} patch='/quiz:id' />
+            <Route component={Quiz} patch='/' />
+        </Switch>
+    </Layout>
+</BrowserRouter>
+
   );
 }
 

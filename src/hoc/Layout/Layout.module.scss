@@ -1,0 +1,15 @@
+.Layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  & main {
+    display: flex;
+    flex-direction: column;
+    background: rebeccapurple;
+    flex-grow: 1;
+  }
+}
+
+
+
