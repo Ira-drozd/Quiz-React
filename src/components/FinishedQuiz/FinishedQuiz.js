@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import classes from './FinishedQuiz.module.scss'
 import Context from "../../context";
 import Button from "../UI/Button/Button";
+import {Link} from "react-router-dom";
 
 const FinishedQuiz = (props) => {
     const {onRetry} = useContext(Context)
@@ -31,7 +32,9 @@ const FinishedQuiz = (props) => {
             </ul>
             <p>{successCount} of {props.quiz.length}</p>
             <Button onClick={onRetry.bind(null)} type='primary'>Repeat</Button>
-            <Button onClick={onRetry.bind(null)} type='success'>Go to tests</Button>
+            <Link to={'/'}>
+                <Button type='success'>Go to tests</Button>
+            </Link>
         </div>
     )
 }

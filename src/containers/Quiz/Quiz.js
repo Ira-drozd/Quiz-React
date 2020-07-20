@@ -59,7 +59,8 @@ const Quiz = (props) => {
         if (quiz[activeQuestion].rightAnswerId === answerId) {
 
             if (!results[activeQuestion + 1]) {
-                setResults(prevState => Object.assign(prevState, {[activeQuestion + 1]: 'success'}))
+                setResults(prevState => Object.assign(prevState,
+                    {[activeQuestion + 1]: 'success'}))
             }
 
             setAnswerState({[answerId]: 'success'})
