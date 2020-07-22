@@ -1,8 +1,12 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import classes from './Quiz.module.scss'
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import Context from "../../context";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
+import axios from '../../axios/axios-quiz'
+import Loader from "../../components/UI/Loader/Loader";
+
+
 
 const Quiz = (props) => {
 
@@ -14,8 +18,10 @@ const Quiz = (props) => {
 
     const [results, setResults] = useState({})
 
+    const [loading, setLoading] = useState(true)
+
     const [quiz, setQuiz] = useState(
-        [
+        [/*
             {
                 id: 1,
                 question: 'What color is the sky?',
@@ -37,9 +43,28 @@ const Quiz = (props) => {
                     {text: 'Jack London', id: 3},
                     {text: 'Herman Melville', id: 4}
                 ]
-            }
+            }*/
         ]
     )
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`quizzes/${props.match.params.id}.json`)
+                console.log(response.data[0])
+                setQuiz(response.data)
+                setLoading(false)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
+        fetchData()
+
+        console.log(props.match.params.id)
+
+    }, [])
 
     const isQuizFinished = () => {
         return activeQuestion + 1 === quiz.length
@@ -110,7 +135,9 @@ const Quiz = (props) => {
                     <h1>Answer all questions
                     </h1>
                     {
-                        isFinished
+                        loading
+                            ? <Loader/>
+                            : isFinished
                             ? <FinishedQuiz
                                 results={results}
                                 quiz={quiz}
