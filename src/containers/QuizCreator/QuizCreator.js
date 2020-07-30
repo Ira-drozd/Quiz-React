@@ -4,7 +4,8 @@ import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import {createControl, validate, validateForm} from '../../form/formFramework'
 import Select from "../../components/UI/Select/Select";
-import axios from '../../axios/axios-quiz'
+import {connect} from "react-redux";
+import {createQuizQuestion, finishCreateQuiz} from "../../store/actions/create";
 
 
 const createOptionControl = (number) => {
@@ -30,7 +31,7 @@ const createFormControls = () => {
 
 const QuizCreator = (props) => {
 
-    const [quiz, setQuiz] = useState([])
+    //const [quiz, setQuiz] = useState([])
     const [formControls, setFormControls] = useState(createFormControls())
     const [rightAnswerId, setRightAnswerId] = useState(1)
     const [isFormValid, setIsFormValid] = useState(false)
@@ -42,14 +43,12 @@ const QuizCreator = (props) => {
     const addQuestionHandler = (event) => {
         event.preventDefault()
 
-        const newQuiz = [...quiz]
-        const index = newQuiz.length + 1
 
         const {question, option1, option2, option3, option4} = formControls;
 
         const questionItem = {
             question: question.value,
-            id: index,
+            id: props.quiz.length + 1,
             rightAnswerId: rightAnswerId,
             answers: [
                 {text: option1.value, id: option1.id},
@@ -58,35 +57,23 @@ const QuizCreator = (props) => {
                 {text: option4.value, id: option4.id}
             ]
         }
-        newQuiz.push(questionItem)
+        //redux
+        props.createQuizQuestion(questionItem)
 
-        setQuiz(newQuiz)
         //reset
         setFormControls(createFormControls())
         setRightAnswerId(1)
         setIsFormValid(false)
     }
 
-    const createQuizHandler = async (event) => {
+    const createQuizHandler = event => {
         event.preventDefault()
-
-        try {
-            await axios.post('quizzes.json', quiz)
             //reset
-            setQuiz([])
             setIsFormValid(false)
             setRightAnswerId(1)
             setFormControls(createFormControls())
-        } catch (e) {
-            console.log(e)
-        }
-        // axios.post('https://quiz-react-8da08.firebaseio.com/quizzes.json', quiz)
-        //     .then(response=>{
-        //         console.log(response)
-        //     })
-        //     .catch(err=>console.log(err))
-
-        //TODO: server
+            //redux
+            props.finishCreateQuiz()
     }
 
     const changeHandler = (value, controlName) => {
@@ -160,7 +147,7 @@ const QuizCreator = (props) => {
                     <Button
                         type='success'
                         onClick={createQuizHandler}
-                        disabled={quiz.length === 0}
+                        disabled={props.quiz.length === 0}
                     >
                         Create test</Button>
                 </form>
@@ -169,4 +156,13 @@ const QuizCreator = (props) => {
     )
 };
 
-export default QuizCreator;
+const mapStateToProps = state => ({
+    quiz: state.create.quiz
+})
+
+const mapDispatchToProps = dispatch => ({
+    createQuizQuestion: item => dispatch(createQuizQuestion(item)),
+    finishCreateQuiz: () => dispatch(finishCreateQuiz())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuizCreator);
