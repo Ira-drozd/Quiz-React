@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import classes from './QuizList.module.scss'
 import {NavLink} from "react-router-dom";
 import Loader from "../../components/UI/Loader/Loader";
@@ -6,18 +6,20 @@ import {connect} from 'react-redux'
 import {fetchQuizzes} from "../../store/actions/quiz";
 
 const QuizList = (props) => {
+
     const renderQuizzes = props.quizzes.map(quiz =>
         <li key={quiz.id}>
             <NavLink
-                to={'/quiz' + quiz.id}
+                to={'/quiz/' + quiz.id}
             >
                 {quiz.name}
             </NavLink>
         </li>)
 
+    const {fetchQuizzes}=props
     useEffect(() => {
-        props.fetchQuizzes()
-    }, [])
+        fetchQuizzes()
+    }, [fetchQuizzes])
 
     return (
         <div className={classes.QuizList}>

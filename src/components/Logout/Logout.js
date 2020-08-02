@@ -4,9 +4,11 @@ import {Redirect} from 'react-router-dom'
 import {logout} from "../../store/actions/auth";
 
 const Logout = (props) => {
+
+    const {logout}=props
     useEffect(()=>{
-        props.logout()
-    },[])
+        logout()
+    },[logout])
 
 
     return(

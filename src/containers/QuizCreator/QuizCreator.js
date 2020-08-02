@@ -31,7 +31,6 @@ const createFormControls = () => {
 
 const QuizCreator = (props) => {
 
-    //const [quiz, setQuiz] = useState([])
     const [formControls, setFormControls] = useState(createFormControls())
     const [rightAnswerId, setRightAnswerId] = useState(1)
     const [isFormValid, setIsFormValid] = useState(false)
@@ -68,12 +67,12 @@ const QuizCreator = (props) => {
 
     const createQuizHandler = event => {
         event.preventDefault()
-            //reset
-            setIsFormValid(false)
-            setRightAnswerId(1)
-            setFormControls(createFormControls())
-            //redux
-            props.finishCreateQuiz()
+        //reset
+        setIsFormValid(false)
+        setRightAnswerId(1)
+        setFormControls(createFormControls())
+        //redux
+        props.finishCreateQuiz()
     }
 
     const changeHandler = (value, controlName) => {
@@ -86,8 +85,6 @@ const QuizCreator = (props) => {
         newFormControls[controlName] = control
 
         //can submit
-
-
         setFormControls(newFormControls)
         setIsFormValid(validateForm(newFormControls))
     }
@@ -134,22 +131,23 @@ const QuizCreator = (props) => {
                 <h1>Create test</h1>
                 <form onSubmit={submitHandler}>
 
+
                     {renderControls}
 
                     {select}
 
-                    <Button
+                    <div className={classes.ButtonWrapper}><Button
                         type='primary'
                         onClick={addQuestionHandler}
                         disabled={!isFormValid}
                     >
                         Add question</Button>
-                    <Button
-                        type='success'
-                        onClick={createQuizHandler}
-                        disabled={props.quiz.length === 0}
-                    >
-                        Create test</Button>
+                        <Button
+                            type='success'
+                            onClick={createQuizHandler}
+                            disabled={props.quiz.length === 0}
+                        >
+                            Create test</Button></div>
                 </form>
             </div>
         </div>

@@ -13,17 +13,52 @@
   ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin-left: 30px;
 
     li {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+
+      &:last-child{
+        a{
+          &:after{
+            content: none;
+          }
+        }
+      }
 
       a {
         text-decoration: navajowhite;
         color: #fff;
+        position: relative;
+        padding-left: 30px;
+        transition: .3s ease-in-out;
+
+        &:before {
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #fff;
+          content: "";
+          left: -15px;
+          transition: .3s ease-in-out;
+          top: 8px;
+        }
+          &:after{
+            position: absolute;
+            width: 1px;
+            height: 30px;
+            border-left: 1px solid #fff;
+            content: "";
+            left: -10px;
+            transition: .3s ease-in-out;
+            top: 18px;
+          }
 
         &:hover{
           color: #363f54;
+
+          &:before{box-shadow: 0 0 0 10px rgba(0,0,0,.2)}
         }
       }
     }

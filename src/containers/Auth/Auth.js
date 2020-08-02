@@ -147,7 +147,8 @@ const Auth = (props) => {
                         renderInputs
                     }
 
-                    <Button
+                    <div className={classes.ButtonWrapper}>
+                        <Button
                         type='success'
                         onClick={loginHandler}
                         disabled={!isFormValid}
@@ -155,13 +156,14 @@ const Auth = (props) => {
                         Sing in
                     </Button>
 
-                    <Button
-                        type='primary'
-                        onClick={registerHandler}
-                        disabled={!isFormValid}
-                    >
-                        Sing up
-                    </Button>
+                        <Button
+                            type='primary'
+                            onClick={registerHandler}
+                            disabled={!isFormValid}
+                        >
+                            Sing up
+                        </Button>
+                    </div>
                 </form>
             </div>
         </div>

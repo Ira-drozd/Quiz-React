@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import classes from './Quiz.module.scss'
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import Context from "../../context";
@@ -10,11 +10,15 @@ import {fetchQuizById, quizAnswerClick, retryQuiz} from "../../store/actions/qui
 
 const Quiz = (props) => {
 
-    useEffect(() => {
-        props.retryQuiz()
-        props.fetchQuizById(props.match.params.id)
+    // const retryQuiz=() => props.retryQuiz()
+    // const fetchQuizById=() =>  props.fetchQuizById(props.match.params.id)
 
-    }, [])
+    const {fetchQuizById, retryQuiz}=props
+
+    useEffect(() => {
+        retryQuiz()
+        fetchQuizById(props.match.params.id)
+    }, [retryQuiz, fetchQuizById, props.match.params.id])
 
     const onAnswerClickHandler = (answerId) => {
         props.quizAnswerClick(answerId)
@@ -24,7 +28,6 @@ const Quiz = (props) => {
         props.retryQuiz()
     }
 
-
     return (
         <Context.Provider value={{
             onAnswerClickHandler,
@@ -32,8 +35,7 @@ const Quiz = (props) => {
         }}>
             <div className={classes.Quiz}>
                 <div className={classes.QuizWrapper}>
-                    <h1>Answer all questions
-                    </h1>
+                    <h1>Answer all questions</h1>
                     {
                         props.loading || !props.quiz
                             ? <Loader/>

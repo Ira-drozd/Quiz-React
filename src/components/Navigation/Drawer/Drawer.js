@@ -58,8 +58,6 @@ const Drawer = (props) => {
        )
     }
 
-    console.log(props.isAuthenticated)
-
     return (
         <>
             <nav className={cls.join(' ')}>
